@@ -1,4 +1,4 @@
-# Calculo de Tijolos por m2.
+# Cálculo de Tijolos por m2.
 
 Aplicação desenvolvida com Python e QT5.
 
