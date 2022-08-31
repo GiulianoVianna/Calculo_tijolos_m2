@@ -4,38 +4,60 @@ from PyQt5.QtWidgets import QMessageBox
 
 
 
-def mensagem():
+def mensagem_largura():
         msg1 = QMessageBox()
         msg1.setIcon(QMessageBox.Information)
         msg1.setWindowTitle('Atenção!')
-        msg1.setText('Favor informar a largura, altura e o tipo de tijolo!')
+        msg1.setText('Favor informar a largura!')
         x = msg1.exec()
 
+def mensagem_altura():
+        msg1 = QMessageBox()
+        msg1.setIcon(QMessageBox.Information)
+        msg1.setWindowTitle('Atenção!')
+        msg1.setText('Favor informar a altura!')
+        x = msg1.exec()
+
+def mensagem_tipo_tijolo():
+        msg1 = QMessageBox()
+        msg1.setIcon(QMessageBox.Information)
+        msg1.setWindowTitle('Atenção!')
+        msg1.setText('Favor informar o tipo de tijolo!')
+        x = msg1.exec()
 
 def calcular():
-    ln1 = tela.ln_largura.text()
-    ln2 = tela.ln_altura.text()
+
+    ln1 = tela.ln_largura.text().replace(",", ".") # replace() - Se o usuário utilizar , - ex: 1,10 faz a correção para 1.10
+    ln2 = tela.ln_altura.text().replace(",", ".")
+    
     tijolo =  tela.cb_tijolos.currentText()
 
-    if ln1 == "" or ln2 == "" or tijolo == "":
-        mensagem()
+    if ln1 == "":
+        mensagem_largura()
+
+    elif ln2 == "":
+        mensagem_altura()
+        
+    elif tijolo == "":
+        mensagem_tipo_tijolo()
+
     else:
         largura = float(ln1)
         altura = float(ln2)
+
         if tijolo == "6 furos":
-            resultado1 = (largura * altura) / 0.0252
-            tela.ln_qt_tijolos.setText(f'{resultado1:,.0f}')
+            # 0.0252 - medida em m2 do tijolo de 6 furos
+            tela.ln_qt_tijolos.setText(f'{(largura * altura) / 0.0252:,.0f}'.replace(",", "X").replace(".", ",").replace("X", "."))
 
         elif tijolo == "8 furos":
-            resultado2 = (largura * altura) / 0.0361
-            tela.ln_qt_tijolos.setText(f'{resultado2:,.0f}')
+            # 0.0361 - medida em m2 do tijolo de 8 furos
+            tela.ln_qt_tijolos.setText(f'{(largura * altura) / 0.0361:,.0f}'.replace(",", "X").replace(".", ",").replace("X", "."))
 
         elif tijolo == "9 furos":
-            resultado3 = (largura * altura) / 0.0551
-            tela.ln_qt_tijolos.setText(f'{resultado3:,.0f}')
-      
-        m2 = largura * altura
-        tela.ln_total_m2.setText(f'{m2:,.2f}'.format(m2).replace(",", "X").replace(".", ",").replace("X", "."))
+            # 0.0551 - medida em m2 do tijolo de 9 furos
+            tela.ln_qt_tijolos.setText(f'{(largura * altura) / 0.0551:,.0f}'.replace(",", "X").replace(".", ",").replace("X", "."))      
+
+        tela.ln_total_m2.setText(f'{largura * altura:,.2f}'.replace(",", "X").replace(".", ",").replace("X", "."))
 
 
 
